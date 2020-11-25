@@ -1,0 +1,23 @@
+#wrapper {
+  border: none;
+}
+.row {
+  height: 32px;
+}
+.column {
+  height: 30px;
+  width: 30px;
+  border: solid 1px;
+  display: inline-block;
+}
+.red, .green {
+  height: 10px;
+  width: 10px;
+  padding: 5px;
+}
+.green {
+  background: green;
+}
+.red {
+  background: red;
+}
