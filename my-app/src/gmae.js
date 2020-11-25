@@ -1,30 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import './game.css';
 
-const rowCount = 10;
-const columnCount = 10;
-
 const Game = () => {
-  useEffect(() => {
-    document.getElementById('wrapper').focus()
-  }, [])
 
-  const getInitialGreens = () => {
+  const [rowCount, setRowCount] = useState(0);
+  const [columnCount, setColumnCount] = useState(0);
+  const [greens, setGreens] = useState([]);
+  const [red, setRed] = useState([rowCount / 2, columnCount / 2]);
+
+  const getInitialGreens = (rows, columns) => {
     const greenLocation = [];
-    for (let greens = 0; greens < 10; greens++) {
-      const row = Math.floor(Math.random() * 10);
-      const col = Math.floor(Math.random() * 10);
+    const randomNoOfGreens = getRandomInt(1, rows*columns)
+    for (let greens = 0; greens < randomNoOfGreens; greens++) {
+      const row = getRandomInt(0, rows);
+      const col = getRandomInt(0, columns);
       greenLocation.push([row, col])
     }
     return greenLocation
   }
-  const [greens, setGreens] = useState(getInitialGreens());
-  const [red, setRed] = useState([rowCount / 10, columnCount / 10]);
+
+  useEffect(() => {
+    const rowsByUser = parseInt(prompt("Please enter number of rows", "10"));
+    const columnsByUser = parseInt(prompt("Please enter number of columns", "10"));
+    setRowCount(rowsByUser);
+    setColumnCount(columnsByUser);
+    setRed([Math.floor(rowsByUser/2), Math.floor(columnsByUser/2)])
+    setGreens(getInitialGreens(rowsByUser, columnsByUser))
+
+    document.getElementById('wrapper').focus()
+  }, [])
+
+  const getRandomInt = (min, max) => {
+    return Math.floor(
+      Math.random() * (max - min) + min
+    )
+  }
 
 
   const getColumns = (row) => {
     const columns = [];
-    // const greens = getGreens();
     for (let column = 0; column < columnCount; column++) {
       let isGreen = false;
       greens.forEach((greenLocation) => {
@@ -33,7 +47,7 @@ const Game = () => {
         }
       })
       let redOrGreen;
-      let className;
+      let className ='';
       if (isGreen) {
         className += ' green';
       }
@@ -79,13 +93,13 @@ const Game = () => {
         break;
       case 39:
         newCol = red[1] + 1;
-        if (newCol <= columnCount) {
+        if (newCol <= columnCount - 1) {
           newRed = [red[0], newCol]
         }
         break;
       case 40:
         newRow = red[0] + 1;
-        if (newRow <= rowCount) {
+        if (newRow <= rowCount - 1) {
           newRed = [newRow, red[1]]
         }
         break;

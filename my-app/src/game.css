@@ -1,6 +1,9 @@
 #wrapper {
   border: none;
 }
+#wrapper:focus {
+  outline: none;
+}
 .row {
   height: 32px;
 }
